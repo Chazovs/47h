@@ -2,6 +2,10 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 
 ?><?php
+
+use Bitrix\Main\Loader;
+Loader::includeModule("iblock");
+
 $slishal = preg_grep("/[^\s]*SLISHAL[^\s]*/", array_keys($_POST));
 $hoteli_bi_vi = preg_grep("/[^\s]*HOTELI_BI_VI[^\s]*/", array_keys($_POST));
 
