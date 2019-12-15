@@ -1,152 +1,99 @@
 <?
+define("HIDE_SIDEBAR", true);
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
+$APPLICATION->SetTitle("IT компании Ростова-на-Дону");
 ?>
-<?if (IsModuleInstalled("advertising")):?>
-	<div class="mb-5">
-		<?$APPLICATION->IncludeComponent(
-			"bitrix:advertising.banner",
-			"bootstrap_v4",
-			array(
-				"COMPONENT_TEMPLATE" => "bootstrap_v4",
-				"TYPE" => "MAIN",
-				"NOINDEX" => "Y",
-				"QUANTITY" => "3",
-				"BS_EFFECT" => "fade",
-				"BS_CYCLING" => "N",
-				"BS_WRAP" => "Y",
-				"BS_PAUSE" => "Y",
-				"BS_KEYBOARD" => "Y",
-				"BS_ARROW_NAV" => "Y",
-				"BS_BULLET_NAV" => "Y",
-				"BS_HIDE_FOR_TABLETS" => "N",
-				"BS_HIDE_FOR_PHONES" => "Y",
-				"CACHE_TYPE" => "A",
-				"CACHE_TIME" => "36000000",
-			),
-			false
-		);?>
-	</div>
-<?endif?>
 
-<?
-global $trendFilter;
-$trendFilter = array('PROPERTY_TREND' => '4');
-?>
-<h2>Тренды сезона</h2>
+<h1>IT компании Ростова-на-Дону</h1>
+
+<div class="input-group mb-3">
+    <select class="custom-select" id="inputGroupSelect02">
+        <option selected>Ваш город</option>
+        <option value="1">Ростов-на-Дону</option>
+        <option value="2">Таганрог</option>
+        <option value="3">Сакраменто</option>
+    </select>
+
+</div>
+<div class="input-group mb-3">
+    <select class="custom-select" id="inputGroupSelect02">
+        <option selected>Тип графика</option>
+        <option value="1">Стэк/зарплата</option>
+        <option value="2">Численность штата/возраст компании</option>
+        <option value="3">Знаю/хочу работать</option>
+    </select>
+</div>
+
 <?$APPLICATION->IncludeComponent(
-	"bitrix:catalog.section",
-	"bootstrap_v4",
+	"custom:news.list",
+	"chart",
 	array(
-		"IBLOCK_TYPE_ID" => "catalog",
-		"IBLOCK_ID" => "2",
-		"BASKET_URL" => "/personal/cart/",
-		"COMPONENT_TEMPLATE" => "",
+		"SEF_MODE" => "Y",
+		"PHONE" => "N",
+		"SCHEDULE" => "N",
+		"SET_TITLE" => "N",
+		"TITLE" => "Список складов с подробной информацией",
+		"MAP_TYPE" => "0",
+		"CACHE_TYPE" => "A",
+		"CACHE_TIME" => "3600",
+		"CACHE_NOTES" => "",
+		"SEF_FOLDER" => "/store/",
+		"COMPONENT_TEMPLATE" => "chart",
 		"IBLOCK_TYPE" => "catalog",
-		"SECTION_ID" => $_REQUEST["SECTION_ID"],
-		"SECTION_CODE" => "",
-		"SECTION_USER_FIELDS" => array(
+		"IBLOCK_ID" => "2",
+		"NEWS_COUNT" => "20",
+		"SORT_BY1" => "ACTIVE_FROM",
+		"SORT_ORDER1" => "DESC",
+		"SORT_BY2" => "SORT",
+		"SORT_ORDER2" => "ASC",
+		"FILTER_NAME" => "",
+		"FIELD_CODE" => array(
 			0 => "",
 			1 => "",
 		),
-		"ELEMENT_SORT_FIELD" => "sort",
-		"ELEMENT_SORT_ORDER" => "desc",
-		"ELEMENT_SORT_FIELD2" => "id",
-		"ELEMENT_SORT_ORDER2" => "desc",
-		"FILTER_NAME" => "trendFilter",
-		"INCLUDE_SUBSECTIONS" => "Y",
-		"SHOW_ALL_WO_SECTION" => "Y",
-		"HIDE_NOT_AVAILABLE" => "N",
-		"PAGE_ELEMENT_COUNT" => "12",
-		"LINE_ELEMENT_COUNT" => "3",
 		"PROPERTY_CODE" => array(
-			0 => "NEWPRODUCT",
-			1 => "",
-		),
-		"OFFERS_FIELD_CODE" => array(
 			0 => "",
-			1 => "",
+			1 => "VID",
+			2 => "SLISHAL",
+			3 => "HOTELI_BI_VI",
+			4 => "",
 		),
-		"OFFERS_PROPERTY_CODE" => array(
-			0 => "COLOR_REF",
-			1 => "SIZES_SHOES",
-			2 => "SIZES_CLOTHES",
-			3 => "",
-		),
-		"OFFERS_SORT_FIELD" => "sort",
-		"OFFERS_SORT_ORDER" => "desc",
-		"OFFERS_SORT_FIELD2" => "id",
-		"OFFERS_SORT_ORDER2" => "desc",
-		"TEMPLATE_THEME" => "site",
-		"PRODUCT_DISPLAY_MODE" => "Y",
-		"ADD_PICT_PROP" => "MORE_PHOTO",
-		"LABEL_PROP" => array(
-			0 => "NEWPRODUCT"
-		),
-		"OFFER_ADD_PICT_PROP" => "-",
-		"OFFER_TREE_PROPS" => array(
-			0 => "COLOR_REF",
-			1 => "SIZES_SHOES",
-			2 => "SIZES_CLOTHES",
-		),
-		"PRODUCT_SUBSCRIPTION" => "N",
-		"SHOW_DISCOUNT_PERCENT" => "N",
-		"SHOW_OLD_PRICE" => "Y",
-		"SHOW_CLOSE_POPUP" => "N",
-		"MESS_BTN_BUY" => "Купить",
-		"MESS_BTN_ADD_TO_BASKET" => "В корзину",
-		"MESS_BTN_SUBSCRIBE" => "Подписаться",
-		"MESS_BTN_DETAIL" => "Подробнее",
-		"MESS_NOT_AVAILABLE" => "Нет в наличии",
-		"SECTION_URL" => "",
+		"CHECK_DATES" => "Y",
+		"TEMPLATE_THEME" => "blue",
 		"DETAIL_URL" => "",
-		"SECTION_ID_VARIABLE" => "SECTION_ID",
-		"SEF_MODE" => "N",
 		"AJAX_MODE" => "N",
 		"AJAX_OPTION_JUMP" => "N",
 		"AJAX_OPTION_STYLE" => "Y",
 		"AJAX_OPTION_HISTORY" => "N",
 		"AJAX_OPTION_ADDITIONAL" => "",
-		"CACHE_TYPE" => "A",
-		"CACHE_TIME" => "36000000",
-		"CACHE_GROUPS" => "Y",
-		"SET_TITLE" => "Y",
-		"SET_BROWSER_TITLE" => "Y",
-		"BROWSER_TITLE" => "-",
-		"SET_META_KEYWORDS" => "Y",
-		"META_KEYWORDS" => "-",
-		"SET_META_DESCRIPTION" => "Y",
-		"META_DESCRIPTION" => "-",
-		"SET_LAST_MODIFIED" => "N",
-		"USE_MAIN_ELEMENT_SECTION" => "N",
-		"ADD_SECTIONS_CHAIN" => "N",
 		"CACHE_FILTER" => "N",
-		"ACTION_VARIABLE" => "action",
-		"PRODUCT_ID_VARIABLE" => "id",
-		"PRICE_CODE" => array(
-			0 => "BASE",
-		),
-		"USE_PRICE_COUNT" => "N",
-		"SHOW_PRICE_COUNT" => "1",
-		"PRICE_VAT_INCLUDE" => "Y",
-		"CONVERT_CURRENCY" => "N",
-		"USE_PRODUCT_QUANTITY" => "N",
-		"PRODUCT_QUANTITY_VARIABLE" => "",
-		"ADD_PROPERTIES_TO_BASKET" => "Y",
-		"PRODUCT_PROPS_VARIABLE" => "prop",
-		"PARTIAL_PRODUCT_PROPERTIES" => "N",
-		"PRODUCT_PROPERTIES" => array(
-		),
-		"OFFERS_CART_PROPERTIES" => array(
-			0 => "COLOR_REF",
-			1 => "SIZES_SHOES",
-			2 => "SIZES_CLOTHES",
-		),
-		"ADD_TO_BASKET_ACTION" => "ADD",
-		"PAGER_TEMPLATE" => "round",
+		"CACHE_GROUPS" => "Y",
+		"PREVIEW_TRUNCATE_LEN" => "",
+		"ACTIVE_DATE_FORMAT" => "d.m.Y",
+		"SET_BROWSER_TITLE" => "Y",
+		"SET_META_KEYWORDS" => "Y",
+		"SET_META_DESCRIPTION" => "Y",
+		"SET_LAST_MODIFIED" => "N",
+		"INCLUDE_IBLOCK_INTO_CHAIN" => "Y",
+		"ADD_SECTIONS_CHAIN" => "Y",
+		"HIDE_LINK_WHEN_NO_DETAIL" => "N",
+		"PARENT_SECTION" => "",
+		"PARENT_SECTION_CODE" => "",
+		"INCLUDE_SUBSECTIONS" => "Y",
+		"STRICT_SECTION_CHECK" => "N",
+		"DISPLAY_DATE" => "Y",
+		"DISPLAY_NAME" => "Y",
+		"DISPLAY_PICTURE" => "Y",
+		"DISPLAY_PREVIEW_TEXT" => "Y",
+		"MEDIA_PROPERTY" => "",
+		"SLIDER_PROPERTY" => "",
+		"SEARCH_PAGE" => "/search/",
+		"USE_RATING" => "N",
+		"USE_SHARE" => "N",
+		"PAGER_TEMPLATE" => ".default",
 		"DISPLAY_TOP_PAGER" => "N",
 		"DISPLAY_BOTTOM_PAGER" => "Y",
-		"PAGER_TITLE" => "Товары",
+		"PAGER_TITLE" => "Опрос",
 		"PAGER_SHOW_ALWAYS" => "N",
 		"PAGER_DESC_NUMBERING" => "N",
 		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
@@ -154,9 +101,10 @@ $trendFilter = array('PROPERTY_TREND' => '4');
 		"PAGER_BASE_LINK_ENABLE" => "N",
 		"SET_STATUS_404" => "N",
 		"SHOW_404" => "N",
-		"MESSAGE_404" => "",
-		"COMPATIBLE_MODE" => "N",
+		"MESSAGE_404" => ""
 	),
 	false
 );?>
+
+<div id="series_chart_div" style="width: 900px; height: 500px;"></div>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
