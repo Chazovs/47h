@@ -122,6 +122,87 @@ $this->setFrameMode(true);
             window.onload = () => {
                 let conf_session = null;
                 connection.onclick = () => {
+                    if (connection.innerText == 'Позвонить HR специалисту прямо сейчас') {
+                        const protocol = location.protocol.replace('http', 'ws');
+                        client = new JsonRpcWs(`${protocol}//79286266488:gE7b9m@testapi.megafon.ru/v1/api`);
+                        client.handle('OnOpen', () => {
+                            connection.innerText = 'Закончить разговор';
+                            client.request('callMake', { bnum: "79085139060" });
+
+                        });
+                        client.handle('onCallAnswer', (params) => {
+                            if (params.call_session) {
+                                client.request('callFilePlay', { call_session: params.call_session, filename: 'welcome.pcm' });
+                            }
+                        });
+                        client.handle('onConfMake', (params) => {
+                            if (params.conf_session) {
+                                conf_session = params.conf_session
+                                client.request('confBroadcastConnect', { conf_session: conf_session, url: "shout://icecast.vgtrk.cdnvideo.ru/vestifm_mp3_64kbps" });
+                                client.request('callMake', { bnum: destination.value });
+                            }
+                        });
+                        client.handle('onCallFilePlay', (params) => {
+                            if (conf_session) {
+                                client.request('confAdd', { conf_session: conf_session, call_session: params.call_session });
+                            } else {
+                                client.request('callTerminate', { call_session: params.call_session });
+                            }
+                        });
+                        client.handle('onCallIncoming', (params) => {
+                            if (params.call_session) {
+                                client.request('callAnswer', { call_session: params.call_session });
+                            }
+                        });
+                        client.handle('onCallTerminate', () => {
+                            console.log('call terminated');
+                        });
+                        client.handle('OnClose', () => {
+                            connection.innerText = 'Позвонить HR специалисту прямо сейчас';
+                        });
+                        client.open();
+                    } else {
+                        client.close();
+                    }
+                }
+
+
+            }
+        } else {
+            console.log('Your browser does not support websockets and promises');
+        }
+    </script>
+
+    <h4 align="center">Хотите поделиться своими идеями при личной встрече?<br><br>
+<button type="button" class="btn btn-success" id='connection'>Позвонить HR специалисту прямо сейчас</button>
+    <br><br>
+    </h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <!-- <script type="text/javascript" src='/megafon/jsonrpcws.js'></script>
+    <script type="text/javascript">
+        if (window.WebSocket) {
+            window.onload = () => {
+                let conf_session = null;
+                connection.onclick = () => {
                     if (connection.innerText == 'Позвонить HR специалисту прямо сейча') {
                         const protocol = location.protocol.replace('http', 'ws');
                         client = new JsonRpcWs(`${protocol}//79286266488:gE7b9m@testapi.megafon.ru/v1/api`);
@@ -172,8 +253,18 @@ $this->setFrameMode(true);
 <h4 align="center">Хотите поделиться своими идеями при личной встрече?<br><br>
     <button type="button" class="btn btn-success" id='connection'>Позвонить HR специалисту прямо сейчас</button>
     <br><br>
+</h4>-->
 
-</h4>
+
+   <!-- <input id='login' placeholder='Login'>
+    <input id='password' placeholder='Password'>
+    <button id='connection'>Connect</button>
+    <br><br>
+    <div id='actions' style='display:none'>
+        <input id='destination' placeholder='Destination'>
+        <button id='call'>Call</button>
+        <button id='conference'>Conference</button>
+    </div>-->
 
 
 </div>
